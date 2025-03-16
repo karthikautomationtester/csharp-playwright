@@ -63,7 +63,7 @@ jobs:
         run: dotnet build --configuration Release
 
       - name: Install playwright browser
-        run: pwsh bin/Debug/netX/playwright.ps1 install
+        run: pwsh playwright-nunit/bin/Release/net9.0/playwright.ps1 install
 
       - name: Run Csharp playwright tests
         run: dotnet test --logger "html;LogFileName=TestResults.html"
