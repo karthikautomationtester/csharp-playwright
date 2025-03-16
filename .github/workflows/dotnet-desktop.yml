@@ -62,6 +62,9 @@ jobs:
       - name: Create test build
         run: dotnet build --configuration Release
 
+      - name: Install playwright browser
+        run: pwsh bin/Debug/netX/playwright.ps1 install
+
       - name: Run Csharp playwright tests
         run: dotnet test --logger "html;LogFileName=TestResults.html"
     
