@@ -16,9 +16,9 @@ steps:
 
 artifacts:
   objects:
-    location: gs://karthik-python-bucket/pw-python-reports
+    location: gs://karthik-python-bucket/pw-csharp-reports/
     paths: 
-      - 'reports/**'
+      - 'playwright-nunit/TestResults/**'
 options:
   machineType: 'E2_HIGHCPU_8'
   logging: CLOUD_LOGGING_ONLY
