@@ -1,17 +1,18 @@
 steps:
-  # Combined step to install .NET SDK, restore dependencies, build the project, install Playwright and browsers, and run tests
-  - name: 'mcr.microsoft.com/dotnet/sdk:6.0'  # Specify the .NET SDK version
-    id: Install and Run
-    entrypoint: 'bash'
-    args:
-      - '-c'
-      - |
-        dotnet --version &&
-        dotnet restore &&
-        dotnet build --configuration Release &&
-        dotnet tool install Microsoft.Playwright.CLI --global &&
-        playwright install &&
-        dotnet test --logger:trx --results-directory TestResults
+  - name: 'mcr.microsoft.com/dotnet/sdk:9.0'
+    id: 'Install and Run the test'
+    script: |
+      # Install the dependencies
+      dotnet restore
+      
+      # Create build
+      dotnet build --configuration Release
+      
+      # Install PW Browsers
+      pwsh playwright-nunit/bin/Release/net9.0/playwright.ps1 install --with-deps chromium
+      
+      # Run tests
+      dotnet test --configuration Release --no-build --logger "html;LogFileName=index.html"
 
 artifacts:
   objects:
