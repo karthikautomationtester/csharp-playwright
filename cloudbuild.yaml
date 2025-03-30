@@ -1,0 +1,23 @@
+steps:
+  # Combined step to install .NET SDK, restore dependencies, build the project, install Playwright and browsers, and run tests
+  - name: 'mcr.microsoft.com/dotnet/sdk:6.0'  # Specify the .NET SDK version
+    id: Install and Run
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        dotnet --version &&
+        dotnet restore &&
+        dotnet build --configuration Release &&
+        dotnet tool install Microsoft.Playwright.CLI --global &&
+        playwright install &&
+        dotnet test --logger:trx --results-directory TestResults
+
+artifacts:
+  objects:
+    location: gs://karthik-python-bucket/pw-python-reports
+    paths: 
+      - 'reports/**'
+options:
+  machineType: 'E2_HIGHCPU_8'
+  logging: CLOUD_LOGGING_ONLY
